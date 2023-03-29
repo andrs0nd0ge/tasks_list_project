@@ -99,4 +99,36 @@ public class UtilityClass {
                 "       ('Clean your room', 'Desc', '2023-02-09', 1, 3);";
         jdbcTemplate.execute(sql);
     }
+    public void deleteTestDataFromUsersTable() {
+        String deleteFirst = "delete from users where email = 'onetest@test'";
+        String deleteSecond = "delete from users where email = 'twotest@test'";
+        String deleteThree = "delete from users where email = 'threetest@test'";
+        String deleteFour = "delete from users where email = 'fourtest@test'";
+        String deleteFive = "delete from users where email = 'fivetest@test'";
+        jdbcTemplate.execute(deleteFirst);
+        jdbcTemplate.execute(deleteSecond);
+        jdbcTemplate.execute(deleteThree);
+        jdbcTemplate.execute(deleteFour);
+        jdbcTemplate.execute(deleteFive);
+    }
+    public void deleteAll() {
+        String statusQuery = "delete from task_statuses";
+        String userQuery = "delete from users";
+        String taskQuery = "delete from tasks";
+        jdbcTemplate.execute(statusQuery);
+        jdbcTemplate.execute(userQuery);
+        jdbcTemplate.execute(taskQuery);
+    }
+    public void resetAutoIncrementForStatus() {
+        String sql = "alter sequence task_statuses_id_seq restart with 1";
+        jdbcTemplate.execute(sql);
+    }
+    public void resetAutoIncrementForUsers() {
+        String sql = "alter sequence users_id_seq restart with 1";
+        jdbcTemplate.execute(sql);
+    }
+    public void resetAutoIncrementForTasks() {
+        String sql = "alter sequence tasks_id_seq restart with 1";
+        jdbcTemplate.execute(sql);
+    }
 }

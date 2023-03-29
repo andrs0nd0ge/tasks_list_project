@@ -35,10 +35,10 @@ public class TaskController {
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
     @GetMapping("/task")
-    public ResponseEntity<GetTaskDto> getTaskOfUserById(@RequestBody GetTaskDto task,
+    public ResponseEntity<GetTaskDto> getTaskOfUserById(@RequestParam(name = "id") Long taskId,
                                                         Authentication auth) {
         User user = (User) auth.getPrincipal();
-        GetTaskDto taskDto = taskService.getTaskOfUserById(task.getId(), user.getId());
+        GetTaskDto taskDto = taskService.getTaskOfUserById(taskId, user.getId());
         if (taskDto != null) {
             return new ResponseEntity<>(taskDto, HttpStatus.OK);
         }

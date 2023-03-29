@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 public class TasksListProjectApplication implements CommandLineRunner {
 
     /*	FOR TESTING PURPOSES ONLY
-	    Uncomment the code below if the tables don't exist or if test data is needed.
+	    Uncomment the code below if database-related testing is needed.
     */
 //    @Resource
 //    UtilityClass util;
