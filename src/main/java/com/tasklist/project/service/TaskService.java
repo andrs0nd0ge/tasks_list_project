@@ -43,17 +43,21 @@ public class TaskService {
     public void createTask(MakeTaskDto task, Long userId) {
         taskDao.createTask(task, userId);
     }
-    public String changeTaskStatus(Long taskId, Long userId) {
+    public String changeTaskStatus(Long userId, Long taskId) {
         Task task = taskDao.getTaskById(taskId).orElse(null);
         if (task != null) {
-            if (task.getStatusId().equals(1L)) {
-                taskDao.changeTaskStatus(2L, task.getId(), userId);
-                return "Status of the task has been changed to \"In Progress\"";
-            } else if (task.getStatusId().equals(2L)) {
-                taskDao.changeTaskStatus(3L, task.getId(), userId);
-                return "Status of the task has been changed to \"Done\"";
-            } else if (task.getStatusId().equals(3L)) {
-                return "Task is already completed, unable to change the status";
+            if (task.getUserId().equals(userId)) {
+                if (task.getStatusId().equals(1L)) {
+                    taskDao.changeTaskStatus(2L, userId, task.getId());
+                    return "Status of the task has been changed to \"In Progress\"";
+                } else if (task.getStatusId().equals(2L)) {
+                    taskDao.changeTaskStatus(3L, userId, task.getId());
+                    return "Status of the task has been changed to \"Done\"";
+                } else if (task.getStatusId().equals(3L)) {
+                    return "Task is already completed, unable to change the status";
+                }
+            } else {
+                return "You cannot change status of someone else's task";
             }
         }
         return "Task with given ID does not exist";

@@ -2,7 +2,7 @@ package com.tasklist.project.controller;
 
 import com.tasklist.project.dto.GetTaskDto;
 import com.tasklist.project.dto.MakeTaskDto;
-import com.tasklist.project.dto.UserDto;
+import com.tasklist.project.entity.User;
 import com.tasklist.project.service.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class TaskController {
     }
     @GetMapping("/user")
     public List<GetTaskDto> getTasksOfUser(Authentication auth) {
-        UserDto user = (UserDto) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
         return taskService.getTasksOfUser(user.getId());
     }
     @GetMapping("/task/{id}")
@@ -37,7 +37,7 @@ public class TaskController {
     @GetMapping("/task")
     public ResponseEntity<GetTaskDto> getTaskOfUserById(@RequestBody GetTaskDto task,
                                                         Authentication auth) {
-        UserDto user = (UserDto) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
         GetTaskDto taskDto = taskService.getTaskOfUserById(task.getId(), user.getId());
         if (taskDto != null) {
             return new ResponseEntity<>(taskDto, HttpStatus.OK);
@@ -47,13 +47,13 @@ public class TaskController {
     @PostMapping("/task")
     public void createTask(@RequestBody MakeTaskDto task,
                            Authentication auth) {
-        UserDto user = (UserDto) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
         taskService.createTask(task, user.getId());
     }
     @PostMapping("/change-status/{taskId}")
     public ResponseEntity<String> changeTaskStatus(@PathVariable Long taskId,
                                                    Authentication auth) {
-        UserDto user = (UserDto) auth.getPrincipal();
-        return new ResponseEntity<>(taskService.changeTaskStatus(taskId, user.getId()), HttpStatus.OK);
+        User user = (User) auth.getPrincipal();
+        return new ResponseEntity<>(taskService.changeTaskStatus(user.getId(), taskId), HttpStatus.OK);
     }
 }

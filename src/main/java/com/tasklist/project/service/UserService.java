@@ -31,16 +31,15 @@ public class UserService {
 
     public void registerUser(String username, String email, String password) {
         List<User> users = userDao.getAllUsers();
-        for (int i = 0; i < users.size(); i++) {
-            if (users.get(i).getEmail().equals(email)) {
+        for (User user : users) {
+            if (user.getEmail().equals(email)) {
                 System.out.println("User already exists");
-                break;
-            } if (i++ == users.size() - 1 && !users.get(i).getEmail().equals(email)) {
+            } else {
                 password = encoder.encode(password);
                 userDao.registerUser(username, email, password);
                 System.out.println("User was registered successfully");
-                break;
             }
+            break;
         }
     }
 }
